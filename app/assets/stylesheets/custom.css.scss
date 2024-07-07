@@ -1,0 +1,61 @@
+body {
+    background-color: #f8f9fa;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+  }
+  
+  .card {
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  footer {
+    background-color: #e9ecef;
+  }
+  body {
+    background-color: #f8f9fa;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+  }
+  
+  .card {
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  footer {
+    background-color: #e9ecef;
+  }
+  
+  .origami {
+    position: absolute;
+    z-index: -1;
+  }
+  
+  .origami.left {
+    left: 10%;
+    top: 20%;
+  }
+  
+  .origami.right {
+    right: 10%;
+    bottom: 20%;
+  }
+  
+  .origami svg {
+    width: 150px;
+    height: auto;
+  }
+  
