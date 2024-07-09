@@ -6,28 +6,20 @@
     <title>Lista de Vagas</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-  <!-- app/views/jobs/index.html.erb -->
-<% if user_signed_in? %>
-  <%= link_to 'New Job', new_job_path, class: "btn btn-primary mb-3" %>
-<% end %>
-
-
-<!-- app/views/jobs/index.html.erb -->
-<div class="container mt-5">
+  <div class="container mt-10">
   <% if user_signed_in? %>
     <div class="text-center mb-4">
-      <%= link_to 'New Job', new_job_path, class: "btn btn-primary" %>
+      <%= link_to 'New Job', new_job_path, class: "btn btn-primary me-2" %>
+      <%= link_to 'View All Jobs', jobs_path, class: "btn btn-secondary" %>
     </div>
   <% end %>
-
+</div>
   <h1 class="text-center mb-4">Job Listings</h1>
-
   <div class="row justify-content-center">
     <div class="col-md-6">
       <%= form_with url: jobs_path, method: :get, local: true, class: "d-flex" do %>
@@ -36,7 +28,10 @@
       <% end %>
     </div>
   </div>
-
+    <%= yield %>
+    <div id="liveAlertPlaceholder"></div>
+    
+    <%= yield %>
   <div class="row justify-content-center mt-5">
     <% @jobs.each do |job| %>
       <div class="col-md-4 d-flex align-items-stretch">
@@ -46,6 +41,7 @@
             <h6 class="card-subtitle mb-2 text-muted"><%= job.company %></h6>
             <p class="card-text flex-grow-1"><%= truncate(job.description, length: 100) %></p>
             <p class="card-text"><small class="text-muted"><%= job.location %></small></p>
+            <p class="card-text"><small class="text-muted"><%= job.education %></small></p>
             <div class="mt-auto">
               <%= link_to 'View Details', job_path(job), class: "btn btn-secondary btn-sm" %>
               <% if user_signed_in? %>
@@ -58,14 +54,6 @@
       </div>
     <% end %>
   </div>
-</div>
 
-
-
-<%= yield %>
-
-    <div id="liveAlertPlaceholder"></div>
-    
-    <%= yield %>
   </body>
 </html>

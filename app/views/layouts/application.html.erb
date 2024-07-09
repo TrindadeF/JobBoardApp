@@ -1,68 +1,116 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>JobBoardApp</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>Academy</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <!-- Exemplo de incorporação de fonte da Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif; /* Utilização da fonte Roboto */
+      background-color: #f0f0f0; /* Cor de fundo suave */
+      color: #333; /* Cor do texto principal */
+    }
 
-  <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Projeto Social</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
+    .navbar {
+      background-color: #ffffff; /* Fundo da barra de navegação */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave */
+      border-bottom: 1px solid #ddd; /* Borda inferior */
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .nav-link {
+      color: #555; /* Cor dos links */
+    }
+
+    .nav-link:hover {
+      color: #007bff; /* Cor do link ao passar o mouse */
+    }
+
+    .btn-primary {
+      background-color: #007bff; /* Cor de fundo do botão principal */
+      border-color: #007bff; /* Cor da borda do botão principal */
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+      border-color: #0056b3; /* Cor da borda ao passar o mouse */
+    }
+
+    .footer {
+      background-color: #ffffff; /* Cor de fundo do rodapé */
+      color: #777; /* Cor do texto do rodapé */
+      border-top: 1px solid #ddd; /* Borda superior */
+    }
+
+    .main-content {
+      background-color: #ffffff; /* Cor de fundo do conteúdo principal */
+      border: 1px solid #ddd; /* Borda ao redor do conteúdo principal */
+      border-radius: 5px; /* Borda arredondada */
+      padding: 20px; /* Espaçamento interno */
+      margin-top: 20px; /* Espaçamento superior */
+      box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra suave */
+    }
+  </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="<%= root_path %>">Academy</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <%= link_to 'Home', root_path, class: "nav-link" %>
+          </li>
+          <% if user_signed_in? %>
             <li class="nav-item">
-              <%= link_to 'Home', root_path, class: "nav-link" %>
+              <%= link_to 'Jobs', jobs_path, class: "nav-link" %>
             </li>
-            <% if user_signed_in? %>
-              <li class="nav-item">
-                <%= link_to 'Jobs', jobs_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to 'Edit profile', edit_user_registration_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link" %>
-              </li>
-            <% else %>
-              <li class="nav-item">
-                <%= link_to 'Login', new_user_session_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to 'Sign up', new_user_registration_path, class: "nav-link" %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
+            <li class="nav-item">
+              <%= link_to 'Edit Profile', edit_user_registration_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link", data: { confirm: "Are you sure?" } %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Login', new_user_session_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link" %>
+            </li>
+          <% end %>
+        </ul>
       </div>
-    </nav>
-
-    <main class="flex-grow-1 position-relative">
-      <%= yield %>
-    </main>
-
-    <div class="origami left">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-        <polygon points="50,15 90,80 10,80" fill="#ff6347" />
-      </svg>
     </div>
-    <div class="origami right">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-        <polygon points="50,15 90,80 10,80" fill="#4682b4" />
-      </svg>
-    </div>
+  </nav>
 
-    <footer class="bg-light text-center py-3 mt-auto">
-      <div class="container">
-        <p class="mb-0">JobBoardApp &copy; <%= Time.now.year %></p>
+  <main class="flex-grow-1">
+    <div class="container mt-4">
+      <div class="main-content">
+        <%= yield %>
       </div>
-    </footer>
-  </body>
+    </div>
+  </main>
+
+  <footer class="footer text-center py-3 mt-auto">
+    <div class="container">
+      <p class="mb-0">Academy &copy; <%= Time.now.year %></p>
+    </div>
+  </footer>
+      <div id="liveAlertPlaceholder"></div>
+</body>
 </html>

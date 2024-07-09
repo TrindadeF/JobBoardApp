@@ -1,2 +1,4 @@
 class Job < ApplicationRecord
-end
+    validates :title, :requirements, :education, presence: true
+  end
+  

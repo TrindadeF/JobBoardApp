@@ -1,9 +1,77 @@
-<h1>New job</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Novo Cadastro de Vaga</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-<%= render "form", job: @job %>
+  <!-- Inclua o Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Estilos personalizados -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      padding-top: 80px; /* Espaçamento acima do formulário */
+    }
 
-<br>
+    .form-container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
 
-<div>
-  <%= link_to "Back to jobs", jobs_path %>
-</div>
+    .form-control {
+      margin-bottom: 20px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="form-container">
+          <h2 class="text-center mb-4">Cadastro de Nova Vaga</h2>
+          <%= form_with(model: @job, url: jobs_path, local: true) do |form| %>
+            <div class="form-group">
+              <%= form.label :title, "Título da Vaga" %>
+              <%= form.text_field :title, class: "form-control", placeholder: "Digite o título da vaga", required: true %>
+            </div>
+            <div class="form-group">
+              <%= form.label :requirements, "Requisitos" %>
+              <%= form.text_area :requirements, class: "form-control", placeholder: "Descreva os requisitos da vaga", rows: 4, required: true %>
+            </div>
+            <div class="form-group">
+              <%= form.label :education, "Formação em Andamento" %>
+              <%= form.text_field :education, class: "form-control", placeholder: "Digite a formação desejada", required: true %>
+            </div>
+            <div class="text-center">
+              <%= form.submit "Salvar", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inclua o Bootstrap JS e dependências -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
