@@ -16,3 +16,28 @@
  @import "bootstrap";
  @import "custom";
 
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    animation: slideOut 3s forwards; /* Tempo de duração da animação */
+  }
+  
+  @keyframes slideOut {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      display: none;
+    }
+  }
+  

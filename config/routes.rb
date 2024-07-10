@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'jobs#index'
+  root 'home#index'
 
   devise_for :users, controllers: {
     sessions: 'users/sessions'
@@ -12,12 +12,21 @@ Rails.application.routes.draw do
     patch 'users' => 'devise/registrations#update'
     put 'users' => 'devise/registrations#update'
     get 'users/sign_out' => 'users/sessions#destroy'
-    
   end
-  
+
+      
+  authenticated :user, ->(u) { u.user_type == 'academic' } do
+    root to: 'academics#dashboard', as: :academic_root
+  end
+
+  authenticated :user, ->(u) { u.user_type == 'recruiter' } do
+    root to: 'recruiters#dashboard', as: :recruiter_root
+  end
+    
   resources :jobs do
     resources :applications, only: [:new, :create]
-  end
-     get 'all_jobs', to: 'jobs#all_jobs', as: 'all_jobs'
+    end
+  
+  get 'all_jobs', to: 'jobs#all_jobs', as: 'all_jobs'
 
 end

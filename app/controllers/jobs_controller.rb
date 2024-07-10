@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   before_action :set_job, only: %i[show edit update destroy]
-  before_action :authenticate_user!, except: %i[index show]
+  before_action :authenticate_user!
 
   def all_jobs
     @jobs = Job.all

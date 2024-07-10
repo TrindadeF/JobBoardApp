@@ -5,3 +5,13 @@ import "bootstrap"
 import "../stylesheets/application"
 import "../custom/jobs"
 import "channels"
+
+document.addEventListener("turbolinks:load", function() {
+    const flashMessage = document.querySelector('.alert');
+    if (flashMessage) {
+      setTimeout(function() {
+        flashMessage.remove();
+      }, 5000);
+    }
+  });
+  
