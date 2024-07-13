@@ -23,6 +23,28 @@ class JobsController < ApplicationController
 
   # GET /jobs/1/edit
   def edit
+
+  end
+
+  def apply
+    @job = Job.find(params[:job_id])
+    @application = @job.applications.new(user: current_user)
+
+    if @application.save
+      flash[:notice] = 'Aplicação realizada com sucesso!'
+      redirect_to @job
+    else
+      flash[:alert] = 'Não foi possível aplicar para esta vaga.'
+      render :show
+    end
+  end
+
+  def my_applications
+    @applications = current_user.applications
+  end
+
+  def job_params
+    params.require(:job).permit(:title, :description, :company, :location, :salary)
   end
 
   # POST /jobs
