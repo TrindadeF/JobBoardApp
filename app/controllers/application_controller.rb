@@ -3,9 +3,20 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:user_type])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:user_type])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :user_type])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :user_type])
   end
 
+  def resource_name
+    :user
+  end
 
+  def resource
+    @resource ||= User.new
+  end
+
+  def devise_mapping
+    @devise_mapping ||= Devise.mappings[:user]
+  end
 end
+
