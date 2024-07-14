@@ -42,6 +42,9 @@ gem 'rails-ujs'
 
 gem 'turbolinks', '~> 5'
 
+gem 'paper_trail'
+
+
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"

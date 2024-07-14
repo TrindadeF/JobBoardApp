@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+  get 'profiles/show'
   get 'applications/new'
   get 'applications/create'
   root 'home#index'
   get 'all_jobs', to: 'jobs#all_jobs', as: 'all_jobs'
   get 'my_applications', to: 'jobs#my_applications', as: 'my_applications'
+  get '/perfil', to: 'profiles#show', as: :perfil
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',
@@ -20,7 +22,9 @@ Rails.application.routes.draw do
 
     
   resources :jobs do
-    resources :applications, only: [:new, :create]
+    resources :applications
   end
+
+
 
 end

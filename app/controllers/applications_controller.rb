@@ -1,33 +1,33 @@
 class ApplicationsController < ApplicationController
+  before_action :authenticate_user!
+
   def new
     @job = Job.find(params[:job_id])
     @application = Application.new
   end
 
   def create
-    if @job
-      @application = @job.applications.build(application_params)
-      @application.user_id = current_user.id
+    @job = Job.find(params[:job_id])
+    @application = @job.applications.build(application_params)
+    @application.user = current_user
 
-      if @application.save
-        redirect_to dashboard_path, notice: 'Aplicação enviada com sucesso!'
-      else
-        render :new
-      end
+    if @application.save
+      redirect_to job_path(@job), notice: 'Aplicação enviada com sucesso.'
     else
-      redirect_to root_path, alert: 'Job não encontrado.'
+      render :new
     end
   end
-  private
 
-  def set_job
-    @job = Job.find_by(id: params[:job_id])
-    unless @job
-      redirect_to root_path, alert: 'Job não encontrado.'
-    end
+  def destroy
+    @application = current_user.applications.find(params[:id])
+    @application.destroy
+    redirect_to my_applications_path, notice: 'Você desistiu da vaga com sucesso.'
   end
+
+  private
 
   def application_params
     params.require(:application).permit(:name, :email, :resume)
   end
+  
 end

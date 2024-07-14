@@ -4,6 +4,7 @@ class CreateApplications < ActiveRecord::Migration[7.0]
       t.string :name
       t.string :email
       t.text :resume
+      t.references :user, null: false, foreign_key: true
       t.references :job, null: false, foreign_key: true
 
       t.timestamps

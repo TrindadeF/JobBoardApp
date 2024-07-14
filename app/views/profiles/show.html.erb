@@ -1,0 +1,9 @@
+<h1>Perfil de <%= @user.name %></h1>
+
+<h2>Vagas Aplicadas Recentemente</h2>
+<ul>
+  <% @user.applications.order(created_at: :desc).limit(5).each do |application| %>
+    <li><%= application.job.title %> - <%= application.created_at.strftime('%d/%m/%Y') %></li>
+  <% end %>
+</ul>
+<%= link_to 'Voltar', root_path, class: 'btn btn-secondary' %>

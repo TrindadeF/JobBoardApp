@@ -15,48 +15,25 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#profile">
-                            Meu Perfil
+                        <a class="nav-link" href="<%= edit_user_registration_path %>">
+                            Editar Meu Perfil
+                        </a>
+                        <a class="nav-link" href="<%= my_applications_path %>">
+                            Minhas Aplicações
                         </a>
                     </li>
                 </ul>
             </div>
+    
         </nav>
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div id="profile" class="content-section">
                 <h2>Meu Perfil</h2>
-                <%= form_for @user, url: user_registration_path, html: { multipart: true } do |f| %>
-                    <div class="form-group">
-                        <%= f.label :telefone %>
-                        <%= f.text_field :telefone, class: 'form-control' %>
-                    </div>
-                    <div class="form-group">
-                        <%= f.label :graduacao %>
-                        <%= f.text_field :graduacao, class: 'form-control' %>
-                    </div>
-                    <div class="form-group">
-                        <%= f.label :habilidades_tecnicas %>
-                        <%= f.text_field :habilidades_tecnicas, class: 'form-control' %>
-                    </div>
-                    <div class="form-group">
-                        <%= f.label :numero_matricula %>
-                        <%= f.text_field :numero_matricula, class: 'form-control' %>
-                    </div>
-                    <div class="form-group">
-                        <%= f.label :periodo_curso %>
-                        <%= f.text_field :periodo_curso, class: 'form-control' %>
-                    </div>
-                    <div class="form-group">
-                        <%= f.label :curriculo, "Anexar Currículo" %>
-                        <%= f.file_field :curriculo, class: 'form-control' %>
-                    </div>
-                    <div class="form-group">
-                        <%= f.submit 'Salvar', class: 'btn btn-primary' %>
-                    </div>
-                <% end %>
+                <p><strong>Nome:</strong> <%= @user.name %></p>
+                <p><strong>Email:</strong> <%= @user.email %></p>
+                <p><strong>Telefone:</strong> <%= @user.telefone %></p>
             </div>
-            <%= link_to 'Minhas Aplicações', my_applications_path, class: 'btn btn-primary' %>
         </main>
     </div>
 </div>

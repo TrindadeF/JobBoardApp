@@ -1,8 +1,25 @@
 <h1>Minhas Aplicações</h1>
 
-<% @applications.each do |application| %>
-  <div>
-    <h2><%= link_to application.job.title, job_path(application.job) %></h2>
-    <p><%= application.job.description %></p>
+<% if @applications.any? %>
+  <div class="row">
+    <% @applications.each do |application| %>
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title"><%= application.job.title %></h5>
+            <p class="card-text"><strong>Empresa:</strong> <%= application.job.company %></p>
+            <p class="card-text"><strong>Localização:</strong> <%= application.job.location %></p>
+            <p class="card-text"><strong>Data de Aplicação:</strong> <%= application.created_at.strftime("%d/%m/%Y") %></p>
+            <p class="card-text"><strong>Status:</strong> <%= application.status %></p>
+            <a href="<%= job_path(application.job) %>" class="btn btn-primary">Ver Detalhes da Vaga</a>
+            <%= button_to 'Desistir da Vaga', job_application_path(application.job, application), method: :delete, data: { confirm: 'Tem certeza que deseja desistir?' }, class: 'btn btn-danger mt-2' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
+<% else %>
+  <p>Você ainda não aplicou para nenhuma vaga.</p>
 <% end %>
+
+<%= link_to 'Voltar', current_user.user_type == 'academic' ? academic_root_path : recruiter_root_path, class: 'btn btn-secondary' %>
