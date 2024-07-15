@@ -6,18 +6,9 @@
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-
-  <!-- Inclua o Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   
-  <!-- Estilos personalizados -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      padding-top: 80px; /* Espaçamento acima do formulário */
-    }
-
     .form-container {
       background-color: #ffffff;
       padding: 30px;
@@ -47,7 +38,17 @@
       <div class="col-md-6">
         <div class="form-container">
           <h2 class="text-center mb-4">Cadastro de Nova Vaga</h2>
-          <%= form_with(model: @job, url: jobs_path, local: true) do |form| %>
+          <%= form_with(model: @job, local: true) do |form| %>
+            <% if @job.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+                <ul>
+                  <% @job.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
             <div class="form-group">
               <%= form.label :title, "Título da Vaga" %>
               <%= form.text_field :title, class: "form-control", placeholder: "Digite o título da vaga", required: true %>
@@ -60,6 +61,11 @@
               <%= form.label :education, "Formação em Andamento" %>
               <%= form.text_field :education, class: "form-control", placeholder: "Digite a formação desejada", required: true %>
             </div>
+            <div class="form-group">
+              <%= form.label :location %>
+              <%= form.text_field :location, class: 'form-control' %>
+          </div>
+          
             <div class="text-center">
               <%= form.submit "Salvar", class: "btn btn-primary" %>
             </div>

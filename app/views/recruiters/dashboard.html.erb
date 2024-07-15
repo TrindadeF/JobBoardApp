@@ -1,5 +1,18 @@
-<div class="container mt-5">
-  <h1 class="display-4">Recruiter Dashboard</h1>
-  <p class="lead">Welcome, <%= current_user.email %>!</p>
-  <!-- Adicione mais conteúdo específico para recrutadores aqui -->
+<div class="container">
+  <h1>Dashboard do Recrutador</h1>
+
+  <h2>Minhas Vagas</h2>
+  <% @jobs.each do |job| %>
+    <div class="job-card">
+      <h3><%= job.title %></h3>
+      <p><%= job.description %></p>
+      <p><strong>Localização:</strong> <%= job.location %></p>
+      <p><strong>Educação:</strong> <%= job.education %></p>
+      <%= link_to 'Ver Candidatos', show_applications_recruiter_path(job.id), class: 'btn btn-primary btn-block mb-2' %>
+      <%= link_to 'Editar Vaga', edit_job_path(job), class: 'btn btn-secondary btn-block mb-2' %>
+      <%= link_to 'Deletar Vaga', job_path(job), method: :delete, data: { confirm: 'Você tem certeza?' }, class: 'btn btn-danger btn-block mb-2' %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Criar Nova Vaga', new_job_path, class: 'btn btn-success' %>
 </div>

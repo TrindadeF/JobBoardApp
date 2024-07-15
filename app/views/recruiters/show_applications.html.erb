@@ -1,0 +1,14 @@
+<!-- app/views/recruiters/show_applications.html.erb -->
+
+<h1>Candidatos para <%= @job.title %></h1>
+
+<ul>
+  <% @applications.each do |application| %>
+    <li>
+      <strong>Nome do Candidato:</strong> <%= application.user.name %><br>
+      <strong>Email:</strong> <%= application.user.email %><br>
+      <strong>Status da Aplicação:</strong> <%= application.status %><br>
+    </li>
+    <hr>
+  <% end %>
+</ul>

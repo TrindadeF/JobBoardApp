@@ -1,5 +1,5 @@
 class JobsController < ApplicationController
-  before_action :set_job, only: %i[show edit update destroy]
+  before_action :set_job, only: [:show, :edit, :update, :destroy, :show_applications]
   before_action :authenticate_user!
 
   def all_jobs
@@ -10,18 +10,14 @@ class JobsController < ApplicationController
     @jobs = Job.all
   end
 
-  # GET /jobs/1
-  # GET /jobs/1.json
   def show
-    @job = Job.find(params[:id])
+    @application = current_user.applications.find_by(job: @job) || current_user.applications.new
   end
 
-  # GET /jobs/new
   def new
     @job = Job.new
   end
 
-  # GET /jobs/1/edit
   def edit
 
   end
@@ -47,19 +43,14 @@ class JobsController < ApplicationController
     params.require(:job).permit(:title, :description, :company, :location, :salary)
   end
 
-  # POST /jobs
-  # POST /jobs.json
   def create
     @job = Job.new(job_params)
+    @job.recruiter = current_user
 
-    respond_to do |format|
-      if @job.save
-        format.html { redirect_to @job, notice: 'Job was successfully created.' }
-        format.json { render :show, status: :created, location: @job }
-      else
-        format.html { render :new }
-        format.json { render json: @job.errors, status: :unprocessable_entity }
-      end
+    if @job.save
+      redirect_to @job, notice: 'Vaga criada com sucesso.'
+    else
+      render :new
     end
   end
   
@@ -68,8 +59,6 @@ class JobsController < ApplicationController
     @jobs = Job.where("title LIKE ?", "%#{@query}%")
   end
 
-  # PATCH/PUT /jobs/1
-  # PATCH/PUT /jobs/1.json
   def update
     respond_to do |format|
       if @job.update(job_params)
@@ -82,8 +71,6 @@ class JobsController < ApplicationController
     end
   end
 
-  # DELETE /jobs/1
-  # DELETE /jobs/1.json
   def destroy
     @job.destroy
     respond_to do |format|
@@ -94,13 +81,12 @@ class JobsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_job
     @job = Job.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def job_params
-    params.require(:job).permit(:title, :requirements, :education)
+    params.require(:job).permit(:title, :requirements, :education, :location)
   end
+
 end

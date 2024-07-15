@@ -13,9 +13,11 @@
           <p class="card-text"><%= @job.education %></p>
         </div>
         <div class="card-footer text-end">
-          <%= link_to 'Edit', edit_job_path(@job), class: "btn btn-primary" %>
-          <%= link_to 'Back', jobs_path, class: "btn btn-secondary" %>
-          <%= link_to 'Delete', job_path(@job), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+          <%= link_to 'Back', current_user.user_type == 'academic' ? academic_root_path : recruiter_root_path, class: 'btn btn-secondary' %>
+          <% if user_signed_in? && current_user.user_type == 'recruiter' %>
+            <%= link_to 'Edit', edit_job_path(@job), class: "btn btn-primary" %>
+            <%= link_to 'Delete', job_path(@job), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+          <% end %>
         </div>
       </div>
     </div>

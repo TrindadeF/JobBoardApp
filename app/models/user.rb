@@ -12,8 +12,13 @@ class User < ApplicationRecord
 
   has_many :applications
   has_many :applied_jobs, through: :applications, source: :job
+  has_many :jobs, foreign_key: :recruiter_id
 
-  def name
-    
+  def academic?
+    user_type == 'academic'
+  end
+
+  def recruiter?
+    user_type == 'recruiter'
   end
 end

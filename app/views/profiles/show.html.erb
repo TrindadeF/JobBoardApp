@@ -1,9 +1,13 @@
-<h1>Perfil de <%= @user.name %></h1>
-
-<h2>Vagas Aplicadas Recentemente</h2>
-<ul>
-  <% @user.applications.order(created_at: :desc).limit(5).each do |application| %>
-    <li><%= application.job.title %> - <%= application.created_at.strftime('%d/%m/%Y') %></li>
-  <% end %>
-</ul>
-<%= link_to 'Voltar', root_path, class: 'btn btn-secondary' %>
+<% if @user.recruiter? %>
+  <!-- Exibir dados da empresa -->
+  <h1>Perfil da Empresa: <%= @user.name %></h1>
+  <p><strong>Email:</strong> <%= @user.email %></p>
+  <p><strong>name:</strong> <%= @user.name %></p>
+  <p><strong>Telefone:</strong> <%= @user.telefone %></p>
+<% else %>
+  <!-- Exibir dados do usuário acadêmico -->
+  <h1>Seu Perfil: <%= @user.name %></h1>
+  <p><strong>Email:</strong> <%= @user.email %></p>
+  <p><strong>name:</strong> <%= @user.name %></p>
+  <p><strong>Telefone:</strong> <%= @user.telefone %></p>
+<% end %>

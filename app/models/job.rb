@@ -1,6 +1,5 @@
 class Job < ApplicationRecord
-    validates :title, :requirements, :education, presence: true
-    has_many :applications
-    has_many :applicants, through: :applications, source: :user
-  end
-  
+  belongs_to :recruiter, class_name: 'User', foreign_key: 'recruiter_id'
+  has_many :applications, dependent: :destroy
+  validates :title, :requirements, :education, :location, presence: true
+end

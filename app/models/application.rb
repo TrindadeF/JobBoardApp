@@ -1,16 +1,16 @@
 class Application < ApplicationRecord
-
-  STATUSES = ['Pending', 'Reviewed', 'Accepted', 'Rejected']
-  
   belongs_to :job
   belongs_to :user
-  
-  validates :name, :email, :resume, presence: true
-  validates :user_id, uniqueness: { scope: :job_id, message: "you have already applied for this job" }
 
-  after_initialize :set_default_status, if: :new_record?
-  
-  def set_default_status
-    self.status ||= 'Pending'
+
+  validates :name, presence: true
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :resume, presence: true
+  validate :unique_application_for_user, on: :create
+
+  def unique_application_for_user
+    if job && user && job.applications.where(user_id: user.id).exists?
+      errors.add(:base, "Você já aplicou para esta vaga.")
+    end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_14_135231) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_15_121442) do
   create_table "applications", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -33,6 +33,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_14_135231) do
     t.datetime "updated_at", null: false
     t.text "requirements"
     t.string "education"
+    t.integer "recruiter_id"
+    t.index ["recruiter_id"], name: "index_jobs_on_recruiter_id"
   end
 
   create_table "users", force: :cascade do |t|
