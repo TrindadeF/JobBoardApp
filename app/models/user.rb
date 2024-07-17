@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_one_attached :photo
   has_many :applications
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :timeoutable
 
   validates :user_type, presence: true
   validates :name, presence: true
@@ -21,4 +21,9 @@ class User < ApplicationRecord
   def recruiter?
     user_type == 'recruiter'
   end
+  
+  def timeout_in
+    30.minutes
+  end
+
 end
