@@ -30,6 +30,10 @@ gem "jbuilder"
 # Authenticator 
 gem 'devise'
 
+# Validate
+gem 'cpf_cnpj'
+
+
 # Style 1
 gem 'bootstrap', '~> 5.1.0'
 

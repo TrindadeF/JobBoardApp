@@ -14,6 +14,17 @@ class User < ApplicationRecord
   has_many :applied_jobs, through: :applications, source: :job
   has_many :jobs, foreign_key: :recruiter_id
 
+  validates :cpf, presence: true, if: :academic?
+  validate :valid_cpf, if: :academic?
+
+  def valid_cpf
+    errors.add(:cpf, 'is not valid') unless CPF.valid?(cpf)
+  end
+
+  def valid_cnpj
+    errors.add(:cnpj, 'is not valid') unless CNPJ.valid?(cnpj)
+  end
+
   def academic?
     user_type == 'academic'
   end

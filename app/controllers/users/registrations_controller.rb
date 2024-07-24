@@ -1,6 +1,8 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
+  require 'net/http'
+  require 'json'
 
   # GET /resource/sign_up
   def new
@@ -10,24 +12,37 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    build_resource(sign_up_params)
-    
-    resource.save
-    yield resource if block_given?
-    if resource.persisted?
-      if resource.active_for_authentication?
-        set_flash_message! :notice, :signed_up
-        sign_up(resource_name, resource)
-        respond_with resource, location: after_sign_up_path_for(resource)
+    @user = User.new(sign_up_params)
+    case @user.user_type
+    when 'academic'
+      if cpf_valid?(@user.cpf)
+        save_user
       else
-        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
-        expire_data_after_sign_in!
-        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+        @user.errors.add(:cpf, 'is invalid or does not exist')
+        render :new
+      end
+    when 'recruiter'
+      if cnpj_valid?(@user.cnpj)
+        save_user
+      else
+        @user.errors.add(:cnpj, 'is invalid or does not exist')
+        render :new
       end
     else
-      clean_up_passwords resource
-      set_minimum_password_length
-      respond_with resource
+      @user.errors.add(:user_type, 'is not a valid user type')
+      render :new
+    end
+  end
+
+  def save_user
+    if @user.save
+      if @user.recruiter?
+        redirect_to recruiter_dashboard_path, notice: 'User was successfully created.'
+      else
+        redirect_to academic_dashboard_path, notice: 'User was successfully created.'
+      end
+    else
+      render :new
     end
   end
 
@@ -84,11 +99,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def sign_up_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :telefone, :graduacao, :habilidades_tecnicas, :numero_matricula, :periodo_curso, :curriculo)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :telefone, :graduacao, :habilidades_tecnicas, :numero_matricula, :periodo_curso, :curriculo, :user_type, :cpf, :cnpj)
   end
 
   def account_update_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :telefone, :graduacao, :habilidades_tecnicas, :numero_matricula, :periodo_curso, :curriculo)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :current_password, :telefone, :graduacao, :habilidades_tecnicas, :numero_matricula, :periodo_curso, :curriculo)
   end
+
+  def cnpj_valid?(cnpj)
+    uri = URI("https://www.receitaws.com.br/v1/cnpj/#{cnpj}")
+    response = Net::HTTP.get(uri)
+    data = JSON.parse(response)
+    data['status'] == 'OK'
+  rescue
+    false
+  end
+  
   
 end
