@@ -48,6 +48,14 @@ gem 'turbolinks', '~> 5'
 
 gem 'paper_trail'
 
+# e-mail verify
+gem 'truemail'
+
+# conect to my angular page
+gem 'rack-cors', require: 'rack/cors'
+
+
+
 
 
 # Use Redis adapter to run Action Cable in production

@@ -1,4 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  
   def after_sign_in_path_for(resource)
     if resource.user_type == 'academic'
       flash[:notice] = "Login realizado como acadêmico !"
@@ -29,4 +31,21 @@ class Users::SessionsController < Devise::SessionsController
     yield if block_given?
     respond_to_on_destroy
   end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:account_update, keys: [
+      :name,
+      :email,
+      :telefone,
+      :cpf,
+      :graduacao,
+      :periodo_curso,
+      :habilidades_tecnicas,
+      :numero_matricula,
+      :curriculo,
+      :nome_empresa,
+      :razao_social
+    ])
+  end
+
 end

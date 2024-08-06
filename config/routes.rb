@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'my_applications', to: 'jobs#my_applications', as: 'my_applications'
   get '/perfil', to: 'profiles#show', as: :perfil
 
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'

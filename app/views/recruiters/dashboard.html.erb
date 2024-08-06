@@ -1,18 +1,82 @@
-<div class="container">
-  <h1>Dashboard do Recrutador</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard do Recrutador</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      color: #1e1e1e;
+    }
+    .container {
+      margin-top: 30px;
+    }
+    h1, h2 {
+      color: #1e1e1e;
+    }
+    .job-card {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .btn-primary, .btn-secondary, .btn-danger, .btn-success {
+      width: 100%;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+    .btn-secondary {
+      background-color: #6c757d;
+      border: none;
+    }
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+    .btn-danger {
+      background-color: #dc3545;
+      border: none;
+    }
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+    .btn-success {
+      background-color: #28a745;
+      border: none;
+    }
+    .btn-success:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dashboard do Recrutador</h1>
 
-  <h2>Minhas Vagas</h2>
-  <% @jobs.each do |job| %>
-    <div class="job-card">
-      <h3><%= job.title %></h3>
-      <p><%= job.description %></p>
-      <p><strong>Localização:</strong> <%= job.location %></p>
-      <p><strong>Educação:</strong> <%= job.education %></p>
-      <%= link_to 'Ver Candidatos', show_applications_recruiter_path(job.id), class: 'btn btn-primary btn-block mb-2' %>
-      <%= link_to 'Editar Vaga', edit_job_path(job), class: 'btn btn-secondary btn-block mb-2' %>
-      <%= link_to 'Deletar Vaga', job_path(job), method: :delete, data: { confirm: 'Você tem certeza?' }, class: 'btn btn-danger btn-block mb-2' %>
-    </div>
-  <% end %>
 
-  <%= link_to 'Criar Nova Vaga', new_job_path, class: 'btn btn-success' %>
-</div>
+    <h2>Minhas Vagas</h2>
+    <% @jobs.each do |job| %>
+      <div class="job-card">
+        <h3><%= job.title %></h3>
+        <p><%= job.description %></p>
+        <p><strong>Localização:</strong> <%= job.location %></p>
+        <p><strong>Educação:</strong> <%= job.education %></p>
+        <%= link_to 'Ver Candidatos', show_applications_recruiter_path(job.id), class: 'btn btn-primary mb-2' %>
+        <%= link_to 'Editar Vaga', edit_job_path(job), class: 'btn btn-secondary mb-2' %>
+        <%= link_to 'Deletar Vaga', job_path(job), method: :delete, data: { confirm: 'Você tem certeza?' }, class: 'btn btn-danger mb-2' %>
+      </div>
+    <% end %>
+
+    <%= link_to 'Criar Nova Vaga', new_job_path, class: 'btn btn-success' %>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

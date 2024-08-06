@@ -1,13 +1,56 @@
-<!-- app/views/home/index.html.erb -->
-<div class="container text-center mt-5">
-  <h1 class="display-4">Welcome to Academy</h1>
-  <p class="lead">Please sign up as an academic or a recruiter to continue</p>
-  <div class="row mt-4">
-    <div class="col-md-6 mb-3">
-      <%= link_to 'Cadastre-se como Academico', new_user_registration_path(user: { user_type: 'academic' }), class: "btn btn-primary btn-lg btn-block" %>
-    </div>
-    <div class="col-md-6 mb-3">
-      <%= link_to 'Cadastre-se como Recrutador', new_user_registration_path(user: { user_type: 'recruiter' }), class: "btn btn-secondary btn-lg btn-block" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academy</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .btn-hover {
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    .btn-hover:hover {
+      transform: scale(1.05);
+      background-color: #007bff;
+      color: white !important;
+    }
+    .btn-clicked {
+      animation: clickedAnimation 0.5s ease-in-out;
+    }
+    @keyframes clickedAnimation {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container text-center mt-5">
+    <h1 class="display-4">Bem vindo ao Academy</h1>
+    <p class="lead">Cadastre-se como Academico ou Recrutador para continuar</p>
+    <div class="row mt-4">
+      <div class="col-md-6 mb-3">
+        <%= link_to 'Cadastre-se como Academico', new_user_registration_path(user: { user_type: 'academic' }), class: "btn btn-primary btn-lg btn-block btn-hover" %>
+      </div>
+      <div class="col-md-6 mb-3">
+        <%= link_to 'Cadastre-se como Recrutador', new_user_registration_path(user: { user_type: 'recruiter' }), class: "btn btn-secondary btn-lg btn-block btn-hover" %>
+      </div>
     </div>
   </div>
-</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      const buttons = document.querySelectorAll('.btn-hover');
+      
+      buttons.forEach(button => {
+        button.addEventListener('click', () => {
+          button.classList.add('btn-clicked');
+          setTimeout(() => {
+            button.classList.remove('btn-clicked');
+          }, 500);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

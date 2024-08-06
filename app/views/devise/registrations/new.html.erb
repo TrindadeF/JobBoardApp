@@ -38,12 +38,47 @@
               <%= f.label :user_type, class: "form-label" %>
               <%= f.select :user_type, [['Acadêmico', 'academic'], ['Recrutador', 'recruiter']], { prompt: 'Selecione o tipo de usuário' }, class: 'user-type-select' %>
             </div>
-        
-            <div class="form-group" id="cpf_field" style="display: none;">
-              <%= f.label :cpf, class: "form-label" %>
-              <%= f.text_field :cpf %>
+            <div id="academic_fields" style="display: none;">
+
+              <div class="form-group" id="cpf_field" style="display: none;">
+                <%= f.label :cpf, class: "form-label" %>
+                <%= f.text_field :cpf %>
+              </div>
+
+              <div class="field" id="cpf_field">
+                <%= f.label :cpf, class: "form-label" %><br/>
+                  <%= f.text_field :cpf, autofocus: true, class: "form-control" %>
+                </div>
+
+                <div class="mb-3" id="cpf_field">
+                  <%= f.label :graduacao, "Nome da Graduação" %><br/>
+                  <%= f.text_field :graduacao, autofocus: true, autocomplete: "Graduação", class: "form-control" %>
+                </div>
+
+                <div class="mb-3" id="cpf_field">
+                  <%= f.label :periodo_curso, "Período" %><br/>
+                  <%= f.text_field :periodo_curso, autofocus: true, autocomplete: "Periodo do Curso", class: "form-control" %>
+                </div>
+
+                <div class="mb-3" id="cpf_field">
+                  <%= f.label :habilidades_tecnicas, "Habilidades Técnicas" %><br/>
+                  <%= f.text_field :habilidades_tecnicas, autofocus: true, autocomplete: "Habilidades Tecnicas", class: "form-control" %>
+                </div>
+
+                <div class="mb-3" id="cpf_field">
+                  <%= f.label :numero_matricula, "Número de Matrícula" %><br/>
+                  <%= f.text_field :numero_matricula, autofocus: true, autocomplete: "Numero de Matricula", class: "form-control" %>
+                </div>
+                
+                <div class="mb-3" id="cpf_field">
+                  <%= f.label :curriculo %><b/>
+                <%= f.file_field :curriculo %>
             </div>
-        
+
+              <div class="mb-3" id="cpf_field">
+                <%= f.label :curriculo %><b/>
+              <%= f.file_field :curriculo %>
+                
             <div class="form-group" id="cnpj_field" style="display: none;">
               <%= f.label :cnpj, class: "form-label" %>
               <%= f.text_field :cnpj %>
@@ -65,6 +100,24 @@
 </div>
 
 <%= javascript_tag do %>
+   document.addEventListener("DOMContentLoaded", function() {
+    const userTypeSelect = document.getElementById('user_type_select');
+    const academicFields = document.getElementById('academic_fields');
+  
+    function toggleAcademicFields() {
+      if (userTypeSelect.value === 'academic') {
+        academicFields.style.display = 'block';
+      } else {
+        academicFields.style.display = 'none';
+      }
+    }
+  
+    toggleAcademicFields();
+  
+    userTypeSelect.addEventListener('change', toggleAcademicFields);
+  });
+
+
   document.addEventListener("DOMContentLoaded", function() {
     const userTypeSelect = document.querySelector('.user-type-select');
     const cpfField = document.getElementById('cpf_field');
@@ -84,5 +137,8 @@
     });
   });
 <% end %>
+
+
+
 
 

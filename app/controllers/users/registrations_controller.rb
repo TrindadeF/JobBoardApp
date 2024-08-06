@@ -1,6 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
-  before_action :configure_account_update_params, only: [:update]
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  
   require 'net/http'
   require 'json'
 
@@ -14,25 +15,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     @user = User.new(sign_up_params)
     case @user.user_type
-    when 'academic'
-      if cpf_valid?(@user.cpf)
-        save_user
+      when 'academic'
+       save_user
+      when 'recruiter'
+        if cnpj_valid?(@user.cnpj)
+          save_user
+        else
+          @user.errors.add(:cnpj, 'is invalid or does not exist')
+          render :new
+        end
       else
-        @user.errors.add(:cpf, 'is invalid or does not exist')
+        @user.errors.add(:user_type, 'is not a valid user type')
         render :new
       end
-    when 'recruiter'
-      if cnpj_valid?(@user.cnpj)
-        save_user
-      else
-        @user.errors.add(:cnpj, 'is invalid or does not exist')
-        render :new
-      end
-    else
-      @user.errors.add(:user_type, 'is not a valid user type')
-      render :new
     end
-  end
+  end  
 
   def save_user
     if @user.save
@@ -76,15 +73,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name) }
   end
 
-  protected
-
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :user_type])
   end
 
-  def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :user_type])
-  end
+  
 
   def after_sign_up_path_for(resource)
     super(resource)
@@ -99,11 +92,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def sign_up_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :telefone, :graduacao, :habilidades_tecnicas, :numero_matricula, :periodo_curso, :curriculo, :user_type, :cpf, :cnpj)
-  end
-
-  def account_update_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :current_password, :telefone, :graduacao, :habilidades_tecnicas, :numero_matricula, :periodo_curso, :curriculo)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
   def cnpj_valid?(cnpj)
@@ -115,5 +104,3 @@ class Users::RegistrationsController < Devise::RegistrationsController
     false
   end
   
-  
-end

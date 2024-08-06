@@ -1,4 +1,6 @@
 class RecruitersController < ApplicationController
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  
   def dashboard
     @jobs = current_user.jobs.all
     @job = Job.new  
@@ -29,4 +31,18 @@ class RecruitersController < ApplicationController
   def status_params
     params.require(:application).permit(:status) 
   end
+
+  def update
+    if @user.update(recruiters_params)
+      redirect_to @user, notice: 'Profile updated successfully.'
+    else
+      render :edit
+    end
+  end
+
+  def set_user
+    @user = Recruiters.find(params[:id])
+  end
+
+
 end

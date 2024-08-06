@@ -6,7 +6,7 @@
     <div class="col-md-6">
       <div class="card">
         <div class="card-body">
-          <%= form_with(model: resource, as: resource_name, url: registration_path(resource_name), local: true, method: :put) do |f| %>
+          <%= form_with(model: resource, as: resource_name, url: registration_path(resource_name), method: :put, local: true, html: { multipart: true }) do |f| %>
 
             <div class="form-group">
               <%= f.label :name, class: "form-label" %>
@@ -15,23 +15,57 @@
             
             <div class="mb-3">
               <%= f.label :email, class: "form-label" %>
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+              <%= f.email_field :email, autofocus: true, class: "form-control" %>
             </div>
 
             <div class="mb-3">
-              <%= f.label :password, class: "form-label" %>
-              <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "Leave blank if you don't want to change it" %>
+              <%= f.label :telefone, class: "form-label" %>
+              <%= f.telephone_field :telefone, autofocus: true, autocomplete: "telefone", class: "form-control" %>
+            </div>
+            <% if @user.academic? %>
+            <!-- Campos específicos para acadêmicos -->
+            
+            <div class="field">
+              <%= f.label :cpf, class: "form-label" %><br/>
+              <%= f.text_field :cpf, autofocus: true, class: "form-control" %>
             </div>
 
             <div class="mb-3">
-              <%= f.label :password_confirmation, class: "form-label" %>
-              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+              <%= f.label :graduacao, "Nome da Graduação" %><br/>
+              <%= f.text_field :graduacao, autofocus: true, autocomplete: "Graduação", class: "form-control" %>
             </div>
 
             <div class="mb-3">
-              <%= f.label :current_password, class: "form-label" %>
-              <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", placeholder: "Current password for verification" %>
+              <%= f.label :periodo_curso, "Período" %><br/>
+              <%= f.text_field :periodo_curso, autofocus: true, autocomplete: "Periodo do Curso", class: "form-control" %>
             </div>
+
+            <div class="mb-3">
+              <%= f.label :habilidades_tecnicas, "Habilidades Técnicas" %><br/>
+              <%= f.text_field :habilidades_tecnicas, autofocus: true, autocomplete: "Habilidades Tecnicas", class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :numero_matricula, "Número de Matrícula" %><br/>
+              <%= f.text_field :numero_matricula, autofocus: true, autocomplete: "Numero de Matricula", class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :curriculo %><b/>
+              <%= f.file_field :curriculo %>
+            </div>
+          <% elsif @user.recruiter? %>
+            <!-- Campos específicos para recrutadores -->
+            <div class="mb-3">
+              <%= f.label :nome_empresa, "Nome da Empresa" %><br/>
+              <%= f.text_field :nome_empresa, autofocus: true, autocomplete: "Nome da Empresa", class: "form-control"%>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :razao_social, "Razão Social" %><br/>
+              <%= f.text_field :razao_social, autofocus: true, autocomplete: "Razão Social", class: "form-control" %>
+            </div>
+          <% end %>
 
             <div class="d-grid gap-2">
               <%= f.submit "Update", class: "btn btn-primary" %>
