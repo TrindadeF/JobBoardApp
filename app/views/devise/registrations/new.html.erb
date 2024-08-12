@@ -35,55 +35,61 @@
             </div>
 
             <div class="form-group">
-              <%= f.label :user_type, class: "form-label" %>
-              <%= f.select :user_type, [['Acadêmico', 'academic'], ['Recrutador', 'recruiter']], { prompt: 'Selecione o tipo de usuário' }, class: 'user-type-select' %>
+              <%= f.label :user_type, "Tipo de Usuário" %>
+              <%= f.select :user_type, options_for_select([['Acadêmico', 'academic'], ['Recrutador', 'recruiter']], selected: resource.user_type), {}, {class: 'form-control', id: 'user_type_select'} %>
             </div>
+            
             <div id="academic_fields" style="display: none;">
-
-              <div class="form-group" id="cpf_field" style="display: none;">
+              <div class="form-group">
                 <%= f.label :cpf, class: "form-label" %>
-                <%= f.text_field :cpf %>
+                <%= f.text_field :cpf, class: "form-control" %>
+              </div>
+            
+              <div class="form-group">
+              <%= f.label :graduacao, "Nome da Graduação" %>
+                <%= f.text_field :graduacao, class: "form-control" %>
+              </div>
+            
+              <div class="form-group">
+              <%= f.label :periodo_curso, "Período" %>
+                 <%= f.text_field :periodo_curso, class: "form-control" %>
+              </div>
+            
+              <div class="form-group">
+                <%= f.label :habilidades_tecnicas, "Habilidades Técnicas" %>
+                <%= f.text_field :habilidades_tecnicas, class: "form-control" %>
+              </div>
+            
+              <div class="form-group">
+                <%= f.label :numero_matricula, "Número de Matrícula" %>
+                <%= f.text_field :numero_matricula, class: "form-control" %>
+              </div>
+            
+              <div class="form-group">
+                <%= f.label :curriculo %>
+                <%= f.file_field :curriculo, class: "form-control" %>
               </div>
 
-              <div class="field" id="cpf_field">
-                <%= f.label :cpf, class: "form-label" %><br/>
-                  <%= f.text_field :cpf, autofocus: true, class: "form-control" %>
-                </div>
-
-                <div class="mb-3" id="cpf_field">
-                  <%= f.label :graduacao, "Nome da Graduação" %><br/>
-                  <%= f.text_field :graduacao, autofocus: true, autocomplete: "Graduação", class: "form-control" %>
-                </div>
-
-                <div class="mb-3" id="cpf_field">
-                  <%= f.label :periodo_curso, "Período" %><br/>
-                  <%= f.text_field :periodo_curso, autofocus: true, autocomplete: "Periodo do Curso", class: "form-control" %>
-                </div>
-
-                <div class="mb-3" id="cpf_field">
-                  <%= f.label :habilidades_tecnicas, "Habilidades Técnicas" %><br/>
-                  <%= f.text_field :habilidades_tecnicas, autofocus: true, autocomplete: "Habilidades Tecnicas", class: "form-control" %>
-                </div>
-
-                <div class="mb-3" id="cpf_field">
-                  <%= f.label :numero_matricula, "Número de Matrícula" %><br/>
-                  <%= f.text_field :numero_matricula, autofocus: true, autocomplete: "Numero de Matricula", class: "form-control" %>
-                </div>
-                
-                <div class="mb-3" id="cpf_field">
-                  <%= f.label :curriculo %><b/>
-                <%= f.file_field :curriculo %>
             </div>
 
-              <div class="mb-3" id="cpf_field">
-                <%= f.label :curriculo %><b/>
-              <%= f.file_field :curriculo %>
-                
-            <div class="form-group" id="cnpj_field" style="display: none;">
-              <%= f.label :cnpj, class: "form-label" %>
-              <%= f.text_field :cnpj %>
-            </div>
+            <div id="recruiter_fields" style="display: none;">
+              <div class="form-group">
+                <%= f.label :nome_empresa, "Nome da Empresa" %>
+                <%= f.text_field :nome_empresa, class: "form-control" %>
+              </div>
 
+              <div class="form-group">
+                <%= f.label :cnpj, class: "form-label" %>
+                <%= f.text_field :cnpj, class: "form-control" %>
+              </div>
+          
+              <div class="form-group">
+                <%= f.label :razao_social, "Razao Social" %>
+                <%= f.text_field :razao_social, class: "form-control" %>
+              </div>
+          </div>
+              
+          
             <div class="form-group text-center mt-4">
               <%= f.submit "Sign up", class: "btn btn-primary btn-lg" %>
             </div>
@@ -100,42 +106,28 @@
 </div>
 
 <%= javascript_tag do %>
-   document.addEventListener("DOMContentLoaded", function() {
-    const userTypeSelect = document.getElementById('user_type_select');
-    const academicFields = document.getElementById('academic_fields');
   
-    function toggleAcademicFields() {
-      if (userTypeSelect.value === 'academic') {
-        academicFields.style.display = 'block';
-      } else {
-        academicFields.style.display = 'none';
-      }
-    }
-  
-    toggleAcademicFields();
-  
-    userTypeSelect.addEventListener('change', toggleAcademicFields);
-  });
-
-
   document.addEventListener("DOMContentLoaded", function() {
-    const userTypeSelect = document.querySelector('.user-type-select');
-    const cpfField = document.getElementById('cpf_field');
-    const cnpjField = document.getElementById('cnpj_field');
+  const userTypeSelect = document.getElementById('user_type_select');
+  const academicFields = document.getElementById('academic_fields');
+  const recruiterFields = document.getElementById('recruiter_fields');
 
-    userTypeSelect.addEventListener('change', function() {
-      if (this.value === 'academic') {
-        cpfField.style.display = 'block';
-        cnpjField.style.display = 'none';
-      } else if (this.value === 'recruiter') {
-        cnpjField.style.display = 'block';
-        cpfField.style.display = 'none';
-      } else {
-        cpfField.style.display = 'none';
-        cnpjField.style.display = 'none';
-      }
-    });
-  });
+  function toggleFields() {
+    const userType = userTypeSelect.value;
+    
+    academicFields.style.display = (userType === 'academic') ? 'block' : 'none';
+
+    recruiterFields.style.display = (userType === 'recruiter') ? 'block' : 'none';
+  }
+
+  toggleFields();
+
+  userTypeSelect.addEventListener('change', toggleFields);
+});
+
+  
+
+
 <% end %>
 
 

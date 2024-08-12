@@ -1,13 +1,23 @@
-<% if @user.recruiter? %>
-  <!-- Exibir dados da empresa -->
-  <h1>Perfil da Empresa: <%= @user.name %></h1>
-  <p><strong>Email:</strong> <%= @user.email %></p>
-  <p><strong>name:</strong> <%= @user.name %></p>
-  <p><strong>Telefone:</strong> <%= @user.telefone %></p>
-<% else %>
-  <!-- Exibir dados do usuário acadêmico -->
-  <h1>Seu Perfil:</h1>
-  <p><strong>Email:</strong> <%= @user.email %></p>
-  <p><strong>name:</strong> <%= @user.name %></p>
-  <p><strong>Telefone:</strong> <%= @user.telefone %></p>
-<% end %>
+<div class="container mt-4">
+  <% if @user.recruiter? %>
+    <h1 class="mb-4">Perfil da Empresa: <%= @user.name %></h1>
+    <div class="card">
+      <div class="card-body">
+        <p><strong>Email:</strong> <%= @user.email %></p>
+        <p><strong>Nome da Empresa:</strong> <%= @user.name %></p>
+        <p><strong>Telefone:</strong> <%= @user.telefone %></p>
+        <p><strong>Razão Social:</strong> <%= @user.razao_social %></p>
+        <p><strong>CNPJ:</strong> <%= @user.cnpj %></p>
+      </div>
+    </div>
+  <% else %>
+    <h1 class="mb-4">Seu Perfil</h1>
+    <div class="card">
+      <div class="card-body">
+        <p><strong>Email:</strong> <%= @user.email %></p>
+        <p><strong>Nome:</strong> <%= @user.name %></p>
+        <p><strong>Telefone:</strong> <%= @user.telefone %></p>
+      </div>
+    </div>
+  <% end %>
+</div>

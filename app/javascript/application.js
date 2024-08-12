@@ -23,39 +23,4 @@ document.addEventListener("turbolinks:load", function() {
     }
   });
 
-  document.addEventListener("DOMContentLoaded", function() {
-    const userTypeSelect = document.getElementById('user_type_select');
-    const academicFields = document.getElementById('academic_fields');
   
-    function toggleAcademicFields() {
-      if (userTypeSelect.value === 'academic') {
-        academicFields.style.display = 'block';
-      } else {
-        academicFields.style.display = 'none';
-      }
-    }
-  
-    toggleAcademicFields();
-  
-    userTypeSelect.addEventListener('change', toggleAcademicFields);
-  });
-
-
-  document.addEventListener("DOMContentLoaded", function() {
-    const userTypeSelect = document.querySelector('.user-type-select');
-    const cpfField = document.getElementById('cpf_field');
-    const cnpjField = document.getElementById('cnpj_field');
-
-    userTypeSelect.addEventListener('change', function() {
-      if (this.value === 'academic') {
-        cpfField.style.display = 'block';
-        cnpjField.style.display = 'none';
-      } else if (this.value === 'recruiter') {
-        cnpjField.style.display = 'block';
-        cpfField.style.display = 'none';
-      } else {
-        cpfField.style.display = 'none';
-        cnpjField.style.display = 'none';
-      }
-    });
-  });

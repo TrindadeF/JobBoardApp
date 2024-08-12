@@ -1,49 +1,43 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :configure_sign_up_params, only: [:create]
   before_action :configure_permitted_parameters, if: :devise_controller?
-  
   require 'net/http'
   require 'json'
 
-  # GET /resource/sign_up
-  def new
-    build_resource({})
-    respond_with self.resource
-  end
 
-  # POST /resource
   def create
     @user = User.new(sign_up_params)
+    Rails.logger.info("User type: #{@user.user_type}")
+  
     case @user.user_type
-      when 'academic'
-       save_user
-      when 'recruiter'
-        if cnpj_valid?(@user.cnpj)
-          save_user
-        else
-          @user.errors.add(:cnpj, 'is invalid or does not exist')
-          render :new
-        end
+    when 'academic'
+      save_user
+    when 'recruiter'
+      if cnpj_valid?(@user.cnpj)
+        save_user
       else
-        @user.errors.add(:user_type, 'is not a valid user type')
+        @user.errors.add(:cnpj, 'is invalid or does not exist')
+        Rails.logger.info("CNPJ is invalid or does not exist")
         render :new
       end
+    else
+      @user.errors.add(:user_type, 'is not a valid user type')
+      Rails.logger.info("User type is not valid")
+      render :new
     end
-  end  
+  end 
 
   def save_user
     if @user.save
       if @user.recruiter?
-        redirect_to recruiter_dashboard_path, notice: 'User was successfully created.'
+        redirect_to recruiter_root_path, notice: 'User was successfully created.'
       else
-        redirect_to academic_dashboard_path, notice: 'User was successfully created.'
+        redirect_to academic_root_path, notice: 'User was successfully created.'
       end
     else
       render :new
     end
   end
 
-  # PUT /resource
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
@@ -73,11 +67,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name) }
   end
 
-  def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :user_type])
-  end
-
-  
 
   def after_sign_up_path_for(resource)
     super(resource)
@@ -91,8 +80,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super(resource)
   end
 
-  def sign_up_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up) do |user_params|
+      user_params.permit(:name, :email, :password, :password_confirmation, :user_type,
+                         :telefone, :cpf, :graduacao, :periodo_curso, :habilidades_tecnicas, :numero_matricula, :curriculo,
+                         :nome_empresa, :cnpj, :razao_social)
+    end
+
+    devise_parameter_sanitizer.permit(:account_update) do |user_params|
+      user_params.permit(:name, :email, :password, :password_confirmation, :current_password, :user_type,
+                         :telefone, :cpf, :graduacao, :periodo_curso, :habilidades_tecnicas, :numero_matricula, :curriculo,
+                         :nome_empresa, :cnpj, :razao_social)
+    end
+
   end
 
   def cnpj_valid?(cnpj)
@@ -100,7 +101,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     response = Net::HTTP.get(uri)
     data = JSON.parse(response)
     data['status'] == 'OK'
-  rescue
-    false
+    rescue
+      false
+    end
   end
   
