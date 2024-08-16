@@ -23,4 +23,28 @@ document.addEventListener("turbolinks:load", function() {
     }
   });
 
+
+document.addEventListener("DOMContentLoaded", function() {
+  var timeLeft = 30 * 60;
+
+  function startTimer() {
+    var timerInterval = setInterval(function() {
+      var minutes = Math.floor(timeLeft / 60);
+      var seconds = timeLeft % 60;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      document.getElementById('time-left').textContent = minutes + ':' + seconds;
+      
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        alert("Sua sessão expirou!");
+        window.location.href = '/users/sign_out';
+      } else {
+        timeLeft--;
+      }
+    }, 1000);
+  }
+
+  startTimer();
+});
+
   

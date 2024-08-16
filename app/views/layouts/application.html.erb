@@ -88,6 +88,9 @@
                   <%= link_to 'Perfil', perfil_path, class: 'nav-link' %>
                 </li>
                 <li class="nav-item">
+                  <%= link_to 'Sobre Nós', about_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
                   <%= link_to 'Sair', destroy_user_session_path, method: :delete, class: "nav-link", data: { confirm: "Are you sure?" } %>
                 </li>
               <% else %>
@@ -113,6 +116,17 @@
           <p class="mb-0">Academy &copy; <%= Time.now.year %></p>
         </div>
       </footer>
+      <% if user_signed_in? %>
+        <div id="session-timer" class="session-timer">
+              <span id="time-left">30:00</span>
+            </div>
+      <% end %>
+
+      <script>
+        var timeLeft = <%= @time_left.to_i %>;
+      </script>
           <div id="liveAlertPlaceholder"></div>
+  
+          
   </body>
   </html>
