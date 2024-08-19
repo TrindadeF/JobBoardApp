@@ -1,8 +1,7 @@
-<%= form_with(model: job, local: true) do |form| %>
+<%= form_with(model: job, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
   <% if job.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(job.errors.count, "error") %> prohibited this job from being saved:</h2>
-
+    <div id="error_explanation" class="alert alert-danger">
+      <h4><%= pluralize(job.errors.count, "erro") %> impedem que esta vaga seja salva:</h4>
       <ul>
         <% job.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -11,22 +10,22 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control", required: true %>
   </div>
 
-  <div class="field">
-    <%= form.label :requirements %>
-    <%= form.text_area :requirements %>
+  <div class="mb-3">
+    <%= form.label :requirements, class: "form-label" %>
+    <%= form.text_area :requirements, class: "form-control", rows: 5, required: true %>
   </div>
 
-  <div class="field">
-    <%= form.label :education %>
-    <%= form.text_field :education %>
+  <div class="mb-3">
+    <%= form.label :education, class: "form-label" %>
+    <%= form.text_field :education, class: "form-control", required: true %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="text-center mt-4">
+    <%= form.submit "Salvar Vaga", class: "btn btn-primary" %>
   </div>
 <% end %>

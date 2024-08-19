@@ -112,19 +112,15 @@
       </main>
 
       <footer class="footer text-center py-3 mt-auto">
-        <div class="container">
+       <div class="container">
           <p class="mb-0">Academy &copy; <%= Time.now.year %></p>
+        <div class="partnership-logos">
+          <h5>Parcerias</h5>
+             <%= image_tag 'unig.png', alt: 'Logotipo Parceria', class: 'small-logo' %>
         </div>
+      </div>
+  </div>
       </footer>
-      <% if user_signed_in? %>
-        <div id="session-timer" class="session-timer">
-              <span id="time-left">30:00</span>
-            </div>
-      <% end %>
-
-      <script>
-        var timeLeft = <%= @time_left.to_i %>;
-      </script>
           <div id="liveAlertPlaceholder"></div>
   
           

@@ -36,7 +36,7 @@
               <p class="card-text"><small class="text-muted"><%= job.location %></small></p>
               <p class="card-text"><small class="text-muted"><%= job.education %></small></p>
               <% if user_signed_in? && current_user.user_type == 'academic' %>
-                <%= link_to 'Aplicar', new_job_application_path(job_id: job.id), class: 'btn btn-primary' %>
+                <%= link_to 'Aplicar', job_path(job), class: 'btn btn-primary' %>
               <% end %>
             </div>
           </div>

@@ -1,10 +1,14 @@
-<h1>Editing job</h1>
-
-<%= render "form", job: @job %>
-
-<br>
-
-<div>
-  <%= link_to "Show this job", @job %> |
-  <%= link_to "Back to jobs", jobs_path %>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h2>Editar Vaga</h2>
+    </div>
+    <div class="card-body">
+      <%= render "form", job: @job %>
+    </div>
+    <div class="card-footer text-center">
+      <%= link_to "Visualizar esta vaga", @job, class: "btn btn-info" %>
+      <%= link_to "Voltar para vagas", jobs_path, class: "btn btn-secondary ml-2" %>
+    </div>
+  </div>
 </div>

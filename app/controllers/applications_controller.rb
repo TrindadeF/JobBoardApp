@@ -1,5 +1,6 @@
 class ApplicationsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_application, only: [:update_status]
 
   def new
     @job = Job.find(params[:job_id])
@@ -47,12 +48,12 @@ class ApplicationsController < ApplicationController
   
     if @application
       if @application.update(status_params)
-        redirect_to recruiter_dashboard_path, notice: 'Status atualizado com sucesso.'
+        redirect_to recruiter_root_path, notice: 'Status atualizado com sucesso.'
       else
-        redirect_to recruiter_dashboard_path, alert: 'Não foi possível atualizar o status.'
+        redirect_to recruiter_root_path, alert: 'Não foi possível atualizar o status.'
       end
     else
-      redirect_to recruiter_dashboard_path, alert: 'Aplicação não encontrada.'
+      redirect_to recruiter_root_path, alert: 'Aplicação não encontrada.'
     end
   end
 
